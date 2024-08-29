@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat';
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the container takes up the full height */
+}
+
+footer {
+  background-color: #f4f0ec;
+  padding: 10px;
+}
+
+.rounded-lt{
+  border-radius: 15px 0 0 15px; /* Top-left, top-right, bottom-right, bottom-left */
+}
