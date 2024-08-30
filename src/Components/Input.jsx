@@ -1,6 +1,6 @@
-import React, { forwardRef, useId } from 'react'
+import React, { forwardRef, useId, memo } from 'react'
 
-const Input = forwardRef(function Input({
+const Input = memo(forwardRef(function Input({
     label,
     type= "text",
     className= "",
@@ -20,6 +20,6 @@ const Input = forwardRef(function Input({
             />
         </div>
     )
-})
+}))
 
 export default Input
