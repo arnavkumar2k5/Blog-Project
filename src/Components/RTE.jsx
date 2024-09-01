@@ -17,8 +17,8 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
             initialValue={defaultValue}
             init={{
               initialValue: defaultValue,
-              height: 500,
-              menubar: true,
+              height: window.innerWidth < 640 ? 300 : 500, // Adjust height based on screen width
+              menubar: window.innerWidth >= 640,
               plugins: [
                 "image",
                 "advlist",
