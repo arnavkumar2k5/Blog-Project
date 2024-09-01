@@ -104,7 +104,7 @@ export default function PostForm({ post }) {
           defaultValue={getValues("content")}
         />
       </div>
-      <div className="w-full md:w-1/3 px-2">
+      <div className="w-full mt-4 md:w-1/3 px-2">
         <label className="mb-4">
           Featured Image :
           <input
