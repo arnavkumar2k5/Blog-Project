@@ -1,4 +1,4 @@
-import React, { useId, memo } from 'react'
+import React, { useId} from 'react'
 
 function Select({
     options,
@@ -22,4 +22,4 @@ function Select({
     )
 }
 
-export default memo(React.forwardRef(Select))
+export default React.forwardRef(Select)
