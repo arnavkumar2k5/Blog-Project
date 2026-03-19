@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {Container, PostCard} from '../Components/index'
 import appwriteService from '../appwrite/Config'
 import { Link } from 'react-router-dom'
@@ -6,13 +6,23 @@ import { Link } from 'react-router-dom'
 function Home() {
     const [posts, setPosts] = useState([])
 
-    useEffect(() => {
-        appwriteService.getPosts().then((posts) => {
-            if(posts){
-                setPosts(posts.documents)
-            }
-        })
+    const fetchPosts = useCallback(async () => {
+        const posts = await appwriteService.getPosts()
+        if(posts){
+            setPosts(posts.documents)
+        }
     }, [])
+
+    useEffect(() => {
+        fetchPosts()
+
+        const handlePostsChanged = () => fetchPosts()
+        window.addEventListener("posts:changed", handlePostsChanged)
+
+        return () => {
+            window.removeEventListener("posts:changed", handlePostsChanged)
+        }
+    }, [fetchPosts])
 
     if(posts.length === 0){
         return(

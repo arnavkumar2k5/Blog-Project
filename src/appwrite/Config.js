@@ -81,12 +81,18 @@ export class Service{
         }
     }
 
-    async getPosts(queries = [Query.equal("status", "active")]){
+    async getPosts(queries = []){
         try {
+            const defaultQueries = [
+                Query.equal("status", "active"),
+                Query.orderDesc("$createdAt"),
+                Query.limit(100),
+            ]
+
             return await this.databases.listDocuments(
                 Conf.appwriteDatabaseID,
                 Conf.appwriteCollectionID,
-                queries
+                [...defaultQueries, ...queries]
             )
         } catch (error) {
             console.log("Appwrite Service :: getPosts :: error", error)

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Button, Input, RTE, Select } from "../index";
 import appwriteService from "../../appwrite/Config";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } =
@@ -20,38 +21,45 @@ export default function PostForm({ post }) {
   const userData = useSelector((state) => state.auth.userData);
     
   const submit = async (data) => {
-    if (post) {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
+    try {
+      if (post) {
+        const file = data.image[0]
+          ? await appwriteService.uploadFile(data.image[0])
+          : null;
 
-      if (file) {
-        appwriteService.deleteFile(post.featuredImage);
-      }
-      
-      const dbPost = appwriteService.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file.$id : undefined,
-      });
-
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-      }
-    } else {
-      const file = await appwriteService.uploadFile(data.image[0])
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-        const dbPost = await appwriteService.createPost({
+        if (file) {
+          await appwriteService.deleteFile(post.featuredImage);
+        }
+        
+        const dbPost = await appwriteService.updatePost(post.$id, {
           ...data,
-          userId: userData.$id,
+          featuredImage: file ? file.$id : undefined,
         });
+
         if (dbPost) {
-          
+          toast.success("Post updated")
+          window.dispatchEvent(new Event("posts:changed"))
           navigate(`/post/${dbPost.$id}`);
         }
+      } else {
+        const file = await appwriteService.uploadFile(data.image[0])
+
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
+          const dbPost = await appwriteService.createPost({
+            ...data,
+            userId: userData.$id,
+          });
+          if (dbPost) {
+            toast.success("Post created successfully")
+            window.dispatchEvent(new Event("posts:changed"))
+            navigate(`/post/${dbPost.$id}`);
+          }
+        }
       }
+    } catch (error) {
+      toast.error("Unable to save post")
     }
   };
 

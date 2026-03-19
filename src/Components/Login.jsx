@@ -5,6 +5,7 @@ import authService from "../appwrite/auth";
 import { Button, Input, Logo } from "./index";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
@@ -22,10 +23,12 @@ function Login() {
         if (userData){ 
           dispatch(authLogin({userData}));
           console.log("userData in Login: ", userData)
+          toast.success("Login successful")
           navigate("/");
         }
       }
     } catch (error) {
+      toast.error(error.message || "Login failed")
       setError(error.message);
     }
   };

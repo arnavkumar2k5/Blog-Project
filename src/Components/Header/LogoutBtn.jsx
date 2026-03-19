@@ -3,16 +3,21 @@ import {useDispatch} from 'react-redux'
 import {logout} from '../../store/AuthSlice'
 import authService from '../../appwrite/auth'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 function LogoutBtn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const logoutHandler = () => {
-        authService.logout().then(() => {
+    const logoutHandler = async () => {
+        try {
+            await authService.logout()
             dispatch(logout())
+            toast.success('Logout successful')
             navigate("/login")
-        })
+        } catch (error) {
+            toast.error('Logout failed')
+        }
     }
 
     return (

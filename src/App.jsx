@@ -5,6 +5,7 @@ import authService from './appwrite/auth';
 import { login, logout } from './store/AuthSlice';
 import { Header, Footer } from './Components/index';
 import { Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ function App() {
 
   return !loading ? (
     <div className="min-h-screen flex flex-wrap content-between bg-[#F6F6F2]">
+      <Toaster position="top-right" toastOptions={{ duration: 2200 }} />
       <div className="w-full block">
         <Header />
         <main>

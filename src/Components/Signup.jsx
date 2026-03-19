@@ -4,7 +4,8 @@ import { Button, Input, Logo } from "./index";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../appwrite/auth";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 function Signup() {
   const navigate = useNavigate();
@@ -20,9 +21,11 @@ function Signup() {
         const userData = await authService.getCurrentUser();
         console.log(userData);
         if (userData) dispatch(login({userData}));
+        toast.success("Signup successful")
         navigate("/");
       }
     } catch (error) {
+      toast.error(error.message || "Signup failed")
       setError(error.message);
     }
   };
