@@ -15,7 +15,7 @@ function Footer() {
                               </div>
                               <div>
                                   <p className="text-sm text-[#3B2F2F]">
-                                      &copy; Copyright 2024. All Rights Reserved by DevUI.
+                                      &copy; Copyright 2024. All Rights Reserved by Arnav Kumar.
                                   </p>
                               </div>
                           </div>
